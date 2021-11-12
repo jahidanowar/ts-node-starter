@@ -1,5 +1,4 @@
 import { object, string } from 'zod';
-
 export const LoginSchema = object({
     body: object({
         email: string({
