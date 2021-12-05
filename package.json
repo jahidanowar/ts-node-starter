@@ -3,11 +3,13 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "engines": { "node": "15" },
   "scripts": {
     "dev": "ts-node-dev --respawn --transpile-only src/server.ts",
+    "prod": "tsc && node build/server.js",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node build/server.js",
-    "postinstall": "tsc"
+    "postinstall": "tsc",
+    "start": "node build/server.js"
   },
   "keywords": [],
   "author": "Jahid",
