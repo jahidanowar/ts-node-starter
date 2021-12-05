@@ -20,7 +20,4 @@ export const UserSchema = object({
     }),
 });
 
-export type UserSchema = Omit<
-    TypeOf<typeof UserSchema>,
-    "body.passwordConfirmation"
->;
+export type UserSchema = Omit<TypeOf<typeof UserSchema>, "body.passwordConfirmation">;

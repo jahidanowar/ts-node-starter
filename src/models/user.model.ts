@@ -1,10 +1,21 @@
 import mongoose from 'mongoose';
 import bcrypt from 'bcrypt'
 
-export interface UserDocument extends mongoose.Document{
+enum Role {
+    user,
+    admin
+}
+enum Provider {
+    local,
+    google,
+    github
+}
+export interface UserDocument extends mongoose.Document {
     name: string;
     email: string;
     password: string;
+    role: Role;
+    provider: Provider;
     createdAt: Date;
     updatedAt: Date;
     comparePassword: (candidatePassword: string) => Promise<boolean>;
@@ -30,13 +41,18 @@ const userSchema = new mongoose.Schema({
         enum: ['user', 'admin'],
         default: 'user',
     },
+    provider: {
+        type: String,
+        enum: ['local', 'google', 'github'],
+        default: 'local',
+    }
 },
-{
-    timestamps: true,
-}
+    {
+        timestamps: true,
+    }
 );
 
-userSchema.pre<UserDocument>('save', async function(next) {
+userSchema.pre<UserDocument>('save', async function (next) {
     if (!this.isModified('password')) {
         return next();
     }
@@ -46,7 +62,7 @@ userSchema.pre<UserDocument>('save', async function(next) {
     return next();
 })
 
-userSchema.methods.comparePassword = async function(candidatePassword: string):Promise<boolean> {
+userSchema.methods.comparePassword = async function (candidatePassword: string): Promise<boolean> {
     const user = this as UserDocument;
     return bcrypt.compare(candidatePassword, user.password).catch(() => false);
 }

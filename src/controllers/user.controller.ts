@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 
-export function store(req: Request, res: Response) {
+export function register(req: Request, res: Response) {
     res.send("store");
 }
 

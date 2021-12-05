@@ -1,18 +1,28 @@
 import express from 'express';
 import { validate } from '../middlewares/validateResource';
+import { LoginSchema } from '../schema/login.schema';
 import { UserSchema } from '../schema/user.schema';
-import {store, login} from './../controllers/user.controller'
+import { register, login } from './../controllers/user.controller'
 
 
 const router = express.Router();
-const PREFIX:string = 'user';
+const PREFIX: string = 'user';
 
-// @route   GET api/users
-// @desc    Get all users
-// @access  Public
+/**
+ * POST /user/register
+ * route to register a new user
+ * @body {name, email, password, passwordConfirmation}
+ * @response {user, token}
+ */
+router.post(`/${PREFIX}/register`, validate(UserSchema), register);
 
-router.post(`/${PREFIX}/register`, validate(UserSchema),  store);
-router.post(`/${PREFIX}/login`, login);
+/**
+ * POST /user/login
+ * route to login a user
+ * @body {email, password}
+ * @response {user, token}
+ */
+router.post(`/${PREFIX}/login`, validate(LoginSchema), login);
 
 
 export default router;
