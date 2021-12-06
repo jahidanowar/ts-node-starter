@@ -21,9 +21,6 @@ COPY . .
 # Openning the application port
 EXPOSE 1337
 
-# Changing the user from root to node
-USER node
-
 # Compiling the application
 RUN npm run build
 

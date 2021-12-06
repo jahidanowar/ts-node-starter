@@ -5,11 +5,13 @@ services:
     restart: always
     volumes:
       - mongodb:/data/db
-  api:
+  rest-api:
     build: .
+    restart: unless-stopped
     ports:
       - "5000:1337"
     environment:
+      - NODE_ENV=production
       - MONGODB_URI=mongodb://mongodb:27017/db
     depends_on:
       - mongodb
